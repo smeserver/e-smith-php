@@ -1,0 +1,21 @@
+Index: e-smith-php/e-smith-php.spec
+diff -u e-smith-php/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/20LoadModule80PHP:1.2 e-smith-php/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/20LoadModule80PHP:1.3
+--- e-smith-php/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/20LoadModule80PHP:1.2	Fri Mar  7 17:07:02 2003
++++ e-smith-php/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/20LoadModule80PHP	Wed Nov 10 15:24:44 2004
+@@ -1,5 +1,5 @@
+ {
+     return "" unless (exists ${php}{status} and ${php}{status} eq "enabled");
+ 
+-    return "LoadModule php4_module /usr/lib/apache/libphp4.so";
++    return "LoadModule php4_module modules/libphp4.so";
+ }
+Index: e-smith-php/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/30AddModule60PHP
+diff -u e-smith-php/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/30AddModule60PHP:1.2 e-smith-php/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/30AddModule60PHP:removed
+--- e-smith-php/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/30AddModule60PHP:1.2	Fri Mar  7 17:11:22 2003
++++ e-smith-php/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/30AddModule60PHP	Wed Dec 31 19:00:00 1969
+@@ -1,5 +0,0 @@
+-{
+-    return "" unless (exists ${php}{status} and ${php}{status} eq "enabled");
+-
+-    return "AddModule mod_php4.c";
+-}

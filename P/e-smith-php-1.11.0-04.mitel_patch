@@ -1,0 +1,188 @@
+Index: e-smith-php/createlinks
+diff -u e-smith-php/createlinks:1.3 e-smith-php/createlinks:1.4
+--- e-smith-php/createlinks:1.3	Mon Jul 22 11:30:03 2002
++++ e-smith-php/createlinks	Tue Jan 25 11:06:12 2005
+@@ -1,73 +1,8 @@
+ #!/usr/bin/perl -w
+ 
+-sub safe_symlink {
+-    my ($from, $to) = @_;
+-    use File::Basename;
+-    use File::Path;
+-    mkpath(dirname($to));
+-    unlink($to);
+-    symlink($from, $to) or die "Can't create symlink from $from to $to: $!";
+-}
++use esmith::Build::CreateLinks  qw(:all);
+ 
+-sub panel_link
+-{
+-    my ($function, $panel) = @_;
+-
+-    my $cgibin = "root/etc/e-smith/web/panels/$panel/cgi-bin";
+-
+-    safe_symlink("../../../functions/$function",
+-            "$cgibin/$function")
+-}
+-
+-sub admin_common_link
+-{
+-    my ($function) = @_;
+-    safe_symlink("../../../functions/$function",
+-        "root/etc/e-smith/web/panels/manager/common/$function");
+-}
+-
+-sub event_link
+-{
+-    my ($action, $event, $level) = @_;
+-
+-    safe_symlink("../actions/${action}",
+-        "root/etc/e-smith/events/${event}/S${level}${action}");
+-}
+-
+-#--------------------------------------------------
+-# actions for console-save event
+-#--------------------------------------------------
+-my $event = "console-save";
+-
+-event_link("conf-php", $event, "50");
+-
+-#--------------------------------------------------
+-# actions for bootstrap-console-save event
+-#--------------------------------------------------
+-my $event = "bootstrap-console-save";
+-
+-event_link("conf-php", $event, "50");
+-
+-#--------------------------------------------------
+-# actions for post-install event
+-#--------------------------------------------------
+-
+-$event = "post-install";
+-
+-event_link("conf-php", $event, "50");
+-
+-#--------------------------------------------------
+-# actions for post-upgrade event
+-#--------------------------------------------------
+-
+-$event = "post-upgrade";
+-
+-event_link("conf-php", $event, "50");
+-
+-#--------------------------------------------------
+-# actions for email-update event
+-#--------------------------------------------------
+-
+-$event = "email-update";
+-
+-event_link("conf-php", $event, "50");
++templates2events("/etc/php.ini", qw(
++	console-save
++	bootstrap-console-save
++    ));
+Index: e-smith-php/e-smith-php.spec
+diff -u /dev/null e-smith-php/root/etc/e-smith/db/configuration/defaults/php/status:1.1
+--- /dev/null	Tue Jan 25 11:06:50 2005
++++ e-smith-php/root/etc/e-smith/db/configuration/defaults/php/status	Tue Jan 25 11:06:12 2005
+@@ -0,0 +1 @@
++enabled
+Index: e-smith-php/root/etc/e-smith/events/actions/conf-php
+diff -u e-smith-php/root/etc/e-smith/events/actions/conf-php:1.1.1.1 e-smith-php/root/etc/e-smith/events/actions/conf-php:removed
+--- e-smith-php/root/etc/e-smith/events/actions/conf-php:1.1.1.1	Fri Mar 15 12:55:51 2002
++++ e-smith-php/root/etc/e-smith/events/actions/conf-php	Wed Dec 31 19:00:00 1969
+@@ -1,55 +0,0 @@
+-#!/usr/bin/perl -w
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 1999 e-smith, inc.
+-#		
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#		
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the phplied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+-# GNU General Public License for more details.
+-#		
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-# 
+-# Technical support for this program is available from e-smith, inc.
+-# For details, please visit our web site at www.e-smith.com or
+-# call us on 1 888 ESMITH 1 (US/Canada toll free) or +1 613 564 8000
+-#----------------------------------------------------------------------
+-
+-package esmith;
+-
+-use strict;
+-use Errno;
+-use esmith::config;
+-use esmith::util;
+-use esmith::db;
+-use esmith::util;
+-
+-my %conf;
+-tie %conf, 'esmith::config';
+-
+-#--------------------------------------------------------------
+-# First, check to see if the service has been enabled in the
+-# services database.  If not, default to enabling it.
+-#--------------------------------------------------------------
+-
+-my $serviceStatus = db_get_prop(\%conf, "php", "status");
+-
+-unless (defined $serviceStatus)
+-{
+-    # Default is to enable PHP
+-    db_set(\%conf, "php", "service", { status => "enabled" })
+-	or warn("Could not add php to configuration db\n");
+-}
+-#--------------------------------------------------------------------
+-# Configure php
+-#--------------------------------------------------------------------
+-esmith::util::processTemplate (\%conf, "/etc/php.ini");
+-
+-exit (0);
+Index: e-smith-php/root/etc/e-smith/templates/etc/php.ini/20ResourceLimits
+diff -u e-smith-php/root/etc/e-smith/templates/etc/php.ini/20ResourceLimits:1.2 e-smith-php/root/etc/e-smith/templates/etc/php.ini/20ResourceLimits:1.3
+--- e-smith-php/root/etc/e-smith/templates/etc/php.ini/20ResourceLimits:1.2	Wed Apr 23 18:05:22 2003
++++ e-smith-php/root/etc/e-smith/templates/etc/php.ini/20ResourceLimits	Tue Jan 25 11:06:13 2005
+@@ -1,8 +1,8 @@
+ max_execution_time = {
+-    my $et = db_get_prop($confref, 'php', 'MaxExecutionTime') || "30";
++    my $et = $php{MaxExecutionTime} || "30";
+     $OUT .= "$et";
+ }
+ memory_limit = {
+-    my $ml = db_get_prop($confref, 'php', 'MemoryLimit') || "32M";
++    my $ml = $php{MemoryLimit} || "32M";
+     $OUT .= "$ml";
+ }
+Index: e-smith-php/root/etc/e-smith/templates/etc/php.ini/40DataHandling
+diff -u e-smith-php/root/etc/e-smith/templates/etc/php.ini/40DataHandling:1.2 e-smith-php/root/etc/e-smith/templates/etc/php.ini/40DataHandling:1.3
+--- e-smith-php/root/etc/e-smith/templates/etc/php.ini/40DataHandling:1.2	Wed Apr 23 18:05:22 2003
++++ e-smith-php/root/etc/e-smith/templates/etc/php.ini/40DataHandling	Tue Jan 25 11:06:13 2005
+@@ -2,7 +2,7 @@
+ register_globals	=	On
+ register_argc_argv	=	On
+ post_max_size		={
+-    my $ms = db_get_prop($confref, 'php', 'PostMaxSize') || "20M";
++    my $ms = $php{PostMaxSize} || "20M";
+     $OUT .= "$ms";
+ }
+ gpc_order			=	"GPC"
+Index: e-smith-php/root/etc/e-smith/templates/etc/php.ini/60FileUploads
+diff -u e-smith-php/root/etc/e-smith/templates/etc/php.ini/60FileUploads:1.2 e-smith-php/root/etc/e-smith/templates/etc/php.ini/60FileUploads:1.3
+--- e-smith-php/root/etc/e-smith/templates/etc/php.ini/60FileUploads:1.2	Wed Apr 23 18:05:22 2003
++++ e-smith-php/root/etc/e-smith/templates/etc/php.ini/60FileUploads	Tue Jan 25 11:06:13 2005
+@@ -1,5 +1,5 @@
+ file_uploads	= On
+ upload_max_filesize = {
+-    my $mf = db_get_prop($confref, 'php', 'UploadMaxFilesize') || "10M";
++    my $mf = $php{UploadMaxFilesize} || "10M";
+     $OUT .= "$mf";
+ }
