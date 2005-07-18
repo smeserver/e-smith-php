@@ -1,0 +1,18 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/95AddType00PHP2ibays mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/95AddType00PHP2ibays
+--- e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/95AddType00PHP2ibays	2005-07-18 16:00:33.567259768 -0600
++++ mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/95AddType00PHP2ibays	2005-07-18 16:00:14.900788344 -0600
+@@ -9,12 +9,12 @@
+ 	    local $dynamicContent = $ibay->prop('CgiBin') || 'disabled';
+ 	    if ($dynamicContent eq 'enabled')
+ 	    {
+-		$OUT .= "\n<Directory /home/e-smith/files/ibays/$key/html>\n";
++		$OUT .= "\n<Directory /home/e-smith/files/ibays/" . $ibay->key . "/html>\n";
+ 		$OUT .= "    AddType application/x-httpd-php .php .php3 .phtml\n";
+ 		$OUT .= "    AddType application/x-httpd-php-source .phps\n";
+ 
+ 		# Set the sandbox within which PHP is confined to play
+-		my $basedir = db_get_prop(\%accounts, $key, 'PHPBaseDir') || "/home/e-smith/files/ibays/$key";
++		my $basedir = $ibay->prop('PHPBaseDir') || "/home/e-smith/files/ibays/" . $ibay->key;
+ 		$OUT .= "    php_admin_value open_basedir $basedir\n";
+ 		$OUT .= "</Directory>\n";
+ 	    }
