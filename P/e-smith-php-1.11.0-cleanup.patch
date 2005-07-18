@@ -1,0 +1,80 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/20LoadModule80PHP mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/20LoadModule80PHP
+--- e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/20LoadModule80PHP	2005-07-17 18:57:42.613273704 -0600
++++ mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/20LoadModule80PHP	2005-07-17 18:54:46.007406072 -0600
+@@ -1,5 +1,5 @@
+ {
+-    return "" unless (exists ${php}{status} and ${php}{status} eq "enabled");
++    return "" unless (exists $php{status} and $php{status} eq "enabled");
+ 
+     return "LoadModule php4_module modules/libphp4.so";
+ }
+diff -Nur -x '*.orig' -x '*.rej' e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/50DirectoryIndex00PHP mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/50DirectoryIndex00PHP
+--- e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/50DirectoryIndex00PHP	2003-01-23 14:02:16.000000000 -0700
++++ mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/50DirectoryIndex00PHP	2005-07-17 18:54:55.125019984 -0600
+@@ -1,7 +1,5 @@
+ {
+-    return "" unless (defined $php 
+-                      and defined $php{'status'} 
+-                      and $php{'status'} eq 'enabled');
++    return "" unless (defined $php{'status'} and $php{'status'} eq 'enabled');
+ 
+     my @directives = qw(
+         index.htm index.html index.shtml index.cgi
+diff -Nur -x '*.orig' -x '*.rej' e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/65AddIcon00PHP mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/65AddIcon00PHP
+--- e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/65AddIcon00PHP	2003-03-07 15:11:22.000000000 -0700
++++ mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/65AddIcon00PHP	2005-07-17 18:54:58.985433112 -0600
+@@ -1,5 +1,5 @@
+ {
+-    return "" unless (exists ${php}{status} and ${php}{status} eq "enabled");
++    return "" unless (exists $php{status} and $php{status} eq "enabled");
+ 
+     $OUT =<<HERE;
+ 
+diff -Nur -x '*.orig' -x '*.rej' e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/95AddType00PHP2ibays mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/95AddType00PHP2ibays
+--- e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/95AddType00PHP2ibays	2002-03-15 10:55:51.000000000 -0700
++++ mezzanine_patched_e-smith-php-1.11.0/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/95AddType00PHP2ibays	2005-07-17 18:57:31.907901168 -0600
+@@ -1,35 +1,21 @@
+ {
+-    use esmith::config;
+-    use esmith::db;
+-
+-    local %services = ( php => $php );
+-
+-    my $status = db_get_prop(\%services, 'php', 'status') || 'disabled';
+-
++    my $status = $php{status} || 'disabled';
+     if ($status eq 'enabled')
+     {
+-	local %accounts;
+-	tie %accounts, 'esmith::config', '/home/e-smith/accounts';
+-
+-	foreach my $key (grep
+-		{ db_get_type(\%accounts, $_) eq 'ibay' } keys %accounts)
++	use esmith::AccountsDB;
++	my $adb = esmith::AccountsDB->open_ro();
++	foreach my $ibay ($adb->ibays)
+ 	{
+-	    local $dynamicContent =
+-		db_get_prop(\%accounts, $key, 'CgiBin') || 'disabled';
++	    local $dynamicContent = $ibay->prop('CgiBin') || 'disabled';
+ 	    if ($dynamicContent eq 'enabled')
+ 	    {
+ 		$OUT .= "\n<Directory /home/e-smith/files/ibays/$key/html>\n";
+-		$OUT .=
+-		    "    AddType application/x-httpd-php .php .php3 .phtml\n";
+-		$OUT .=
+-		    "    AddType application/x-httpd-php-source .phps\n";
++		$OUT .= "    AddType application/x-httpd-php .php .php3 .phtml\n";
++		$OUT .= "    AddType application/x-httpd-php-source .phps\n";
+ 
+ 		# Set the sandbox within which PHP is confined to play
+-		my $basedir = db_get_prop(\%accounts, $key, 'PHPBaseDir') ||
+-		    "/home/e-smith/files/ibays/$key";
+-		$OUT .=
+-		    "    php_admin_value open_basedir $basedir\n";
+-
++		my $basedir = db_get_prop(\%accounts, $key, 'PHPBaseDir') || "/home/e-smith/files/ibays/$key";
++		$OUT .= "    php_admin_value open_basedir $basedir\n";
+ 		$OUT .= "</Directory>\n";
+ 	    }
+ 	}

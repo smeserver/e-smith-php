@@ -2,7 +2,7 @@ Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 1.11.0
-%define release 05
+%define release 05sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -12,6 +12,7 @@ Patch0: e-smith-php-1.11.0-02.mitel_patch
 Patch1: e-smith-php-1.11.0-03.mitel_patch
 Patch2: e-smith-php-1.11.0-04.mitel_patch
 Patch3: e-smith-php-1.11.0-05.mitel_patch
+Patch4: e-smith-php-1.11.0-cleanup.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -21,6 +22,10 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Sun Jul 17 2005 Shad L. Lords <slords@mail.com>
+- [1.11.0-05sme01]
+- Update to using new DB api
+
 * Sun May  1 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.11.0-05]
 - Update include_path in php.ini, to base and add-on pear directories.
@@ -278,6 +283,7 @@ php specific configuration items.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 perl createlinks
