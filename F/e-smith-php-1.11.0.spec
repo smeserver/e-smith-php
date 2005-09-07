@@ -2,7 +2,7 @@ Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 1.11.0
-%define release 06
+%define release 07
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -13,6 +13,7 @@ Patch1: e-smith-php-1.11.0-03.mitel_patch
 Patch2: e-smith-php-1.11.0-04.mitel_patch
 Patch3: e-smith-php-1.11.0-05.mitel_patch
 Patch4: e-smith-php-1.11.0-06.mitel_patch
+Patch5: e-smith-php-1.11.0-07.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -22,6 +23,10 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Tue Sep  6 2005 Tony Clayton <apc@e-smith.com>
+- [1.11.0-07]
+- Turn register_globals off by default [SF: 1271218]
+
 * Tue Jul 19 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.11.0-06]
 - Update to current db access APIs, in readiness for move of dbs to private
@@ -285,6 +290,7 @@ php specific configuration items.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 perl createlinks
