@@ -2,7 +2,7 @@ Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 1.11.0
-%define release 07
+%define release 09
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -14,6 +14,7 @@ Patch2: e-smith-php-1.11.0-04.mitel_patch
 Patch3: e-smith-php-1.11.0-05.mitel_patch
 Patch4: e-smith-php-1.11.0-06.mitel_patch
 Patch5: e-smith-php-1.11.0-07.mitel_patch
+Patch6: e-smith-php-1.11.0-08.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -23,6 +24,14 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 1.11.0-09
+- Bump release number only
+
+* Tue Oct 18 2005 Charlie Brady <charlieb@e-smith.com>
+- [1.11.0-08]
+- Prevent i-bay name aliasing in default open_basedir restriction.
+  [SF: 1330228]
+
 * Tue Sep  6 2005 Tony Clayton <apc@e-smith.com>
 - [1.11.0-07]
 - Turn register_globals off by default [SF: 1271218]
@@ -291,6 +300,7 @@ php specific configuration items.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 perl createlinks
