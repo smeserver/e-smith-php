@@ -2,7 +2,7 @@ Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 1.11.0
-%define release 09
+%define release 10
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -24,6 +24,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Mon Jan 30 2006 Charlie Brady <charlie_brady@mitel.com> 1.11.0-10
+- Remove all pre/post/preun/postun scriptlets. [SME: 469]
+
 * Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 1.11.0-09
 - Bump release number only
 
@@ -314,27 +317,6 @@ echo "%doc COPYING" >> %{name}-%{version}-%{release}-filelist
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
-
-%pre
-
-%preun
-
-%post
-# Call the event to generate templates, and restart.
-# Only do that in runlevel 7
-if [ -x /sbin/runlevel -a -x /usr/bin/cut ]
-then
-  RC=$(/sbin/runlevel | /usr/bin/cut -f2 -d" ")
-  if [ "X$RC" = "X7" ]
-  then
-     if [ -e "/etc/rc.d/init.d/httpd-e-smith" ]; then
-	/sbin/e-smith/expand-template /etc/httpd/conf/httpd.conf
-	/etc/rc.d/init.d/httpd-e-smith restart
-     fi
-  fi
-fi
-
-%postun
 
 %files -f %{name}-%{version}-%{release}-filelist
 %defattr(-,root,root)
