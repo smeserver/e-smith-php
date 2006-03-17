@@ -1,20 +1,13 @@
 Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
-%define version 1.11.0
-%define release 10
+%define version 1.12.0
+%define release 01
 Version: %{version}
 Release: %{release}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-php-1.11.0-02.mitel_patch
-Patch1: e-smith-php-1.11.0-03.mitel_patch
-Patch2: e-smith-php-1.11.0-04.mitel_patch
-Patch3: e-smith-php-1.11.0-05.mitel_patch
-Patch4: e-smith-php-1.11.0-06.mitel_patch
-Patch5: e-smith-php-1.11.0-07.mitel_patch
-Patch6: e-smith-php-1.11.0-08.mitel_patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -24,6 +17,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Fri Mar 17 2006 Gordon Rowell <gordonr@gormand.com.au> 1.12.0-01
+- Roll stable stream version. [SME: 1016]
+
 * Mon Jan 30 2006 Charlie Brady <charlie_brady@mitel.com> 1.11.0-10
 - Remove all pre/post/preun/postun scriptlets. [SME: 469]
 
@@ -297,13 +293,6 @@ php specific configuration items.
 
 %prep
 %setup
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 %build
 perl createlinks
