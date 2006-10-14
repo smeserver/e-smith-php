@@ -2,12 +2,13 @@ Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 1.12.0
-%define release 01
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-php-1.12.0-php5.patch
 Packager: e-smith developers <bugs@e-smith.com>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -17,6 +18,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Fri Oct 13 2006 Shad L. Lords <slords@mail.com> 1.12.0-02
+- Add support for php5 [SME: 1120]
+
 * Fri Mar 17 2006 Gordon Rowell <gordonr@gormand.com.au> 1.12.0-01
 - Roll stable stream version. [SME: 1016]
 
@@ -293,6 +297,7 @@ php specific configuration items.
 
 %prep
 %setup
+%patch0 -p 1
 
 %build
 perl createlinks
