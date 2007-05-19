@@ -2,13 +2,14 @@ Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 1.12.0
-%define release 3
+%define release 4
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-php-1.12.0-php5.patch
+Patch1: e-smith-php-1.12.0-lib64.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base, php >= 4.0.1
@@ -17,6 +18,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Fri May 18 2007 Shad L. Lords <slords@mail.com> 1.12.0-4
+- Use correct lib for modules
+
 * Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
 - Clean up spec so package can be built by koji/plague
 
@@ -304,6 +308,7 @@ php specific configuration items.
 %prep
 %setup
 %patch0 -p 1
+%patch1 -p 1
 
 %build
 perl createlinks
