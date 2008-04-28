@@ -2,7 +2,7 @@ Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 1.12.0
-%define release 4
+%define release 5
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -10,6 +10,7 @@ Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-php-1.12.0-php5.patch
 Patch1: e-smith-php-1.12.0-lib64.patch
+Patch2: e-smith-php-1.12.0-SplitModuleSettingSection.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base, php >= 4.0.1
@@ -18,6 +19,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Fri Apr 18 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.12.0-5
+- Split 80ModuleSettings template fragmenent to have one frament per module [SME: 3282]
+
 * Fri May 18 2007 Shad L. Lords <slords@mail.com> 1.12.0-4
 - Use correct lib for modules
 
@@ -309,6 +313,7 @@ php specific configuration items.
 %setup
 %patch0 -p 1
 %patch1 -p 1
+%patch2 -p 1
 
 %build
 perl createlinks
