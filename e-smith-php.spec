@@ -2,7 +2,7 @@ Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 1.12.0
-%define release 5
+%define release 6
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -11,6 +11,8 @@ Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-php-1.12.0-php5.patch
 Patch1: e-smith-php-1.12.0-lib64.patch
 Patch2: e-smith-php-1.12.0-SplitModuleSettingSection.patch
+Patch3: e-smith-php-1.12.0-fixWhiteLines.patch
+Patch4: e-smith-php-1.12.0-fixSpacing.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base, php >= 4.0.1
@@ -19,6 +21,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Tue Aug 19 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.12.0-6
+- Fix whiteline and spacing issues [SME: 4513]
+
 * Fri Apr 18 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.12.0-5
 - Split 80ModuleSettings template fragmenent to have one frament per module [SME: 3282]
 
@@ -314,6 +319,8 @@ php specific configuration items.
 %patch0 -p 1
 %patch1 -p 1
 %patch2 -p 1
+%patch3 -p 1
+%patch4 -p 1
 
 %build
 perl createlinks
