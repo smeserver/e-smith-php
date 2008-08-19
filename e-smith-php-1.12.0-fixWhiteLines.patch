@@ -1,0 +1,13 @@
+--- e-smith-php-1.12.0/root/etc/e-smith/templates/etc/php.ini/65FopenWrappers.fixWhiteLines	2003-04-02 16:30:41.000000000 +0200
++++ e-smith-php-1.12.0/root/etc/e-smith/templates/etc/php.ini/65FopenWrappers	2008-08-19 22:54:10.000000000 +0200
+@@ -1,3 +1,3 @@
+ {
+-    return "allow_url_fopen = $php{AllowUrlFopen}";
++    return "allow_url_fopen = $php{AllowUrlFopen}\n";
+ }
+--- e-smith-php-1.12.0/root/etc/e-smith/templates/etc/php.ini/80ModuleSettings13bcmath.fixWhiteLines	2008-08-19 22:53:21.000000000 +0200
++++ e-smith-php-1.12.0/root/etc/e-smith/templates/etc/php.ini/80ModuleSettings13bcmath	2008-08-19 22:54:10.000000000 +0200
+@@ -1,2 +1,3 @@
+ [bcmath]
+ bcmath.scale                           = 0
++
