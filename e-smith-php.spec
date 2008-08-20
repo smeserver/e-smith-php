@@ -2,7 +2,7 @@ Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 1.12.0
-%define release 7
+%define release 8
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -21,6 +21,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Wed Aug 20 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.12.0-8
+- Fix latest patches to prevent .orig file [SME: 4513]
+
 * Wed Aug 20 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.12.0-7
 - Fix some minor layout issues introduced by fixes in [SME: 4513]
 
