@@ -192,7 +192,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-php-1.12.0/root/etc/e-smith/templates/e
 +mysql.max_links                        = -1
 +mysql.default_port                     =
 +mysql.default_socket                   =
-+mysql.default_hosT                     =
++mysql.default_host                     =
 +mysql.default_user                     =
 +mysql.default_password	                =
 +
