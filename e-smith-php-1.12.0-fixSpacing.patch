@@ -80,7 +80,7 @@
 +variables_order                        = "EGPCS"
 +register_globals                       = Off
 +register_argc_argv                     = On
-+post_max_size                          ={
++post_max_size                          = {
      my $ms = $php{PostMaxSize} || "20M";
      $OUT .= "$ms";
  }
@@ -144,5 +144,5 @@
  mysql.default_hosT                     =
  mysql.default_user                     =
 -mysql.default_password	                =
-+mysql.default_password	               =
++mysql.default_password                 =
  
