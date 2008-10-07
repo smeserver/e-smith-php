@@ -1,18 +1,15 @@
+# $Id: e-smith-php.spec,v 1.6 2008/10/07 18:51:15 slords Exp $
+
 Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
-%define version 1.12.0
-%define release 8
+%define version 2.0.0
+%define release 1
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-php-1.12.0-php5.patch
-Patch1: e-smith-php-1.12.0-lib64.patch
-Patch2: e-smith-php-1.12.0-SplitModuleSettingSection.patch
-Patch3: e-smith-php-1.12.0-fixWhiteLines.patch
-Patch4: e-smith-php-1.12.0-fixSpacing.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base, php >= 4.0.1
@@ -21,6 +18,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 2.0.0-1.sme
+- Roll new stream to separate sme7/sme8 trees [SME: 4633]
+
 * Wed Aug 20 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.12.0-8
 - Fix latest patches to prevent .orig file [SME: 4513]
 
@@ -322,11 +322,6 @@ php specific configuration items.
 
 %prep
 %setup
-%patch0 -p 1
-%patch1 -p 1
-%patch2 -p 1
-%patch3 -p 1
-%patch4 -p 1
 
 %build
 perl createlinks
