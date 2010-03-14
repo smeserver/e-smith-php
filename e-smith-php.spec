@@ -1,4 +1,4 @@
-# $Id: e-smith-php.spec,v 1.7 2010/03/14 08:53:44 snetram Exp $
+# $Id: e-smith-php.spec,v 1.8 2010/03/14 08:59:35 snetram Exp $
 
 Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
@@ -19,7 +19,7 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
-* Sat Mar 13 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 2.2.0-2.sme
+* Sun Mar 14 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 2.2.0-2.sme
 - Prepare for obsoletion of magic_quotes* when we supply PHP 5.3.0+ [SME: 5843]
 
 * Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 2.2.0-1.sme
