@@ -1,0 +1,43 @@
+diff -up e-smith-php-2.2.0/root/etc/e-smith/db/configuration/defaults/php/MagicQuotes.obsoleteMagicQuotes e-smith-php-2.2.0/root/etc/e-smith/db/configuration/defaults/php/MagicQuotes
+--- e-smith-php-2.2.0/root/etc/e-smith/db/configuration/defaults/php/MagicQuotes.obsoleteMagicQuotes	2010-03-14 09:47:07.000000000 +0100
++++ e-smith-php-2.2.0/root/etc/e-smith/db/configuration/defaults/php/MagicQuotes	2010-03-14 09:47:47.000000000 +0100
+@@ -0,0 +1 @@
++On
+diff -up e-smith-php-2.2.0/root/etc/e-smith/db/configuration/migrate/PhpMagicQuotes.obsoleteMagicQuotes e-smith-php-2.2.0/root/etc/e-smith/db/configuration/migrate/PhpMagicQuotes
+--- e-smith-php-2.2.0/root/etc/e-smith/db/configuration/migrate/PhpMagicQuotes.obsoleteMagicQuotes	2010-03-14 09:46:34.000000000 +0100
++++ e-smith-php-2.2.0/root/etc/e-smith/db/configuration/migrate/PhpMagicQuotes	2010-03-14 09:45:59.000000000 +0100
+@@ -0,0 +1,19 @@
++{
++
++    use version;
++
++    open (PHP, 'php -v | grep built | cut -d " " -f 2 |');
++    my $current  = <PHP> || "0.0.0";
++    close PHP;
++
++    chomp $current;
++    $current = "v$current";
++
++    my $treshold = version->new("v5.3.0");
++
++    return unless $current >= $treshold;
++
++    $DB->get_prop_and_delete ('php', 'MagicQuotes');
++
++}
++
+diff -up e-smith-php-2.2.0/root/etc/e-smith/templates/etc/php.ini/40DataHandling.obsoleteMagicQuotes e-smith-php-2.2.0/root/etc/e-smith/templates/etc/php.ini/40DataHandling
+--- e-smith-php-2.2.0/root/etc/e-smith/templates/etc/php.ini/40DataHandling.obsoleteMagicQuotes	2008-10-07 19:36:44.000000000 +0200
++++ e-smith-php-2.2.0/root/etc/e-smith/templates/etc/php.ini/40DataHandling	2010-03-14 09:51:28.000000000 +0100
+@@ -7,7 +7,10 @@ post_max_size                          =
+     $OUT .= "$ms";
+ }
+ gpc_order                              = "GPC"
+-magic_quotes_gpc                       = On
++magic_quotes_gpc                       = {
++    my $mq = $php{MagicQuotes} || "Off";
++    $OUT .= "$mq";
++}
+ magic_quotes_runtime                   = Off
+ magic_quotes_sybase                    = Off
+ auto_prepend_file                      =
