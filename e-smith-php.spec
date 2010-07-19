@@ -1,15 +1,16 @@
-# $Id: e-smith-php.spec,v 1.6 2008/10/07 18:51:15 slords Exp $
+# $Id: e-smith-php.spec,v 1.7 2010/07/19 20:38:38 wellsi Exp $
 
 Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 2.0.0
-%define release 1
+%define release 2
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch1: e-smith-php-2.0.0-exposephp.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base, php >= 4.0.1
@@ -18,6 +19,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Mon Jul 19 2010 Ian Wells <esmith@wellsi.com> 2.0.0-2.sme
+- Default expose_php in php.ini to Off [SME: 6133]
+
 * Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 2.0.0-1.sme
 - Roll new stream to separate sme7/sme8 trees [SME: 4633]
 
@@ -322,6 +326,7 @@ php specific configuration items.
 
 %prep
 %setup
+%patch1 -p1
 
 %build
 perl createlinks

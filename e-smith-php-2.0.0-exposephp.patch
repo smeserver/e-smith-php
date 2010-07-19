@@ -1,0 +1,17 @@
+diff -ruN e-smith-php-2.0.0.old/root/etc/e-smith/templates/etc/php.ini/10LanguageOptions e-smith-php-2.0.0/root/etc/e-smith/templates/etc/php.ini/10LanguageOptions
+--- e-smith-php-2.0.0.old/root/etc/e-smith/templates/etc/php.ini/10LanguageOptions	2008-10-07 18:36:42.000000000 +0100
++++ e-smith-php-2.0.0/root/etc/e-smith/templates/etc/php.ini/10LanguageOptions	2010-07-19 21:03:27.000000000 +0100
+@@ -21,4 +21,3 @@
+ highlight.bg                           = #FFFFFF
+ highlight.default                      = #0000BB
+ highlight.html                         = #000000
+-expose_php                             = On
+diff -ruN e-smith-php-2.0.0.old/root/etc/e-smith/templates/etc/php.ini/15ExposePHP e-smith-php-2.0.0/root/etc/e-smith/templates/etc/php.ini/15ExposePHP
+--- e-smith-php-2.0.0.old/root/etc/e-smith/templates/etc/php.ini/15ExposePHP	1970-01-01 01:00:00.000000000 +0100
++++ e-smith-php-2.0.0/root/etc/e-smith/templates/etc/php.ini/15ExposePHP	2010-07-19 21:12:20.000000000 +0100
+@@ -0,0 +1,5 @@
++; Default expose_php to Off for security reasons
++expose_php                             = {
++    my $ep = $php{ExposePHP} || "Off";
++    $OUT .= "$ep";
++}
