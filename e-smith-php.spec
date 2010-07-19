@@ -1,16 +1,17 @@
-# $Id: e-smith-php.spec,v 1.8 2010/03/14 08:59:35 snetram Exp $
+# $Id: e-smith-php.spec,v 1.9 2010/07/19 20:57:37 wellsi Exp $
 
 Summary: e-smith specific PHP configuration and templates.
 %define name e-smith-php
 Name: %{name}
 %define version 2.2.0
-%define release 2
+%define release 3
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-php-2.2.0-obsoleteMagicQuotes.patch
+Patch1: e-smith-php-2.2.0-exposephp.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: e-smith-base, php >= 4.0.1
@@ -19,6 +20,9 @@ BuildRequires: e-smith-devtools >= 1.11.0-12
 AutoReqProv: no
 
 %changelog
+* Mon Jul 19 2010 Ian Wells <esmith@wellsi.com> 2.2.0-3.sme
+- Default expose_php in php.ini to Off [SME: 6136]
+
 * Sun Mar 14 2010 Jonathan Martens <smeserver-contribs@snetram.nl> 2.2.0-2.sme
 - Prepare for obsoletion of magic_quotes* when we supply PHP 5.3.0+ [SME: 5843]
 
@@ -327,6 +331,7 @@ php specific configuration items.
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
 
 %build
 perl createlinks
